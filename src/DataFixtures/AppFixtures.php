@@ -20,8 +20,8 @@ class AppFixtures extends Fixture
             $produit->setDesignation('Café "' . $faker->sentence(3) . '"')
                 ->setDescription($faker->text(100))
                 ->setPrix($faker->randomFloat(2, 5, 12))
-                ->setNomImage($faker->randomElement($tableauImage));
-            //->setNomImage($tableauImage[$i]);
+                //->setNomImage($faker->randomElement($tableauImage));
+                ->setNomImage($tableauImage[$i]);
 
             $manager->persist($produit);
         }
