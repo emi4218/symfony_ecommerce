@@ -89,6 +89,15 @@ class AdminController extends AbstractController
                     'class' => 'form-group', // ne change rien, c'est pour montrer comment mettre une classe sur la classe supérieure
                 ],
             ])
+            ->add('quantite', null, [
+                'attr' => [
+                    'placeholder' => 'Quantité de produit',
+                    'class' => 'form-control'
+                ],
+                'row_attr' => [
+                    'class' => 'form-group', // ne change rien, c'est pour montrer comment mettre une classe sur la classe supérieure
+                ],
+            ])
             ->add('nomImage', FileType::class, [
                 'label' => 'Image',
                 'mapped' => false,

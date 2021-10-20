@@ -37,6 +37,11 @@ class Produit
      */
     private $nomImage;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $quantite;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +91,18 @@ class Produit
     public function setNomImage(?string $nomImage): self
     {
         $this->nomImage = $nomImage;
+
+        return $this;
+    }
+
+    public function getQuantite(): ?int
+    {
+        return $this->quantite;
+    }
+
+    public function setQuantite(int $quantite): self
+    {
+        $this->quantite = $quantite;
 
         return $this;
     }
