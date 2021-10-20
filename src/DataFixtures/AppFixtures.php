@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Produit;
 use App\Entity\User;
+use App\Entity\Slide;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
@@ -51,6 +52,25 @@ class AppFixtures extends Fixture
         $user->setPassword($this->hasher->hashPassword($user, "azerty"));
 
         $manager->persist($user);
+
+        $slide1 = new Slide();
+        $slide1->setNomImage("header1.jpg");
+        $slide1->setTitre("Le café, c'est la vie");
+        $slide1->setTexte("Parce qu'on aime ça");
+
+        $slide2 = new Slide();
+        $slide2->setNomImage("header2.jpg");
+        $slide2->setTitre("Notre équipe a un grain... mais le bon !!!");
+        $slide2->setTexte("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ultricies turpis non massa pretium, ut lacinia urna dignissim. Phasellus commodo vehicula erat, quis cursus metus vulputate a. Fusce et diam sed magna vulputate malesuada vel eget metus.");
+
+        $slide3 = new Slide();
+        $slide3->setNomImage("header3.jpg");
+        $slide3->setTitre("Drogue légale");
+        $slide3->setTexte("En reprenant le titre de la première image, on SAIT que c'est vital");
+
+        $manager->persist($slide1);
+        $manager->persist($slide2);
+        $manager->persist($slide3);
 
         $manager->flush();
     }

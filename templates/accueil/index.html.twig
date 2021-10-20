@@ -3,49 +3,75 @@
 {% block title %}Café du logis
 {% endblock %}
 
+{% block stylesheets %}
+	<link rel="stylesheet" href="/assets/css/carousel.css">
+{% endblock %}
+
 {% block body %}
+
 	<main>
-
-		<section class="py-5 text-center container">
-			<div class="row py-lg-5">
-				<div class="col-lg-6 col-md-8 mx-auto">
-					<h1 class="fw-light">Album example</h1>
-					<p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
-					<p>
-						<a href="#" class="btn btn-primary my-2">Main call to action</a>
-						<a href="#" class="btn btn-secondary my-2">Secondary action</a>
-					</p>
-				</div>
+		<div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+			<div class="carousel-indicators">
+				<button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+				<button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+				<button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
 			</div>
-		</section>
+			<div class="carousel-inner">
 
-		<div class="album py-5 bg-light">
-			<div class="container">
-				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-
-					{% for produit in listeProduits %}
-						<div class="col">
-							<div class="card shadow-sm">
-								<img style="height:225px;width:100%" src="/uploads/{{produit.nomImage}}">
-
-								<div class="card-body">
-									<h4>{{produit.designation}}</h4>
-									<p class="card-text">{{produit.description | slice(0,100)}}</p>
-									<!--pour limiter à 100 caractères-->
-									<div class="d-flex justify-content-between align-items-center">
-										<div class="btn-group">
-											<button type="button" class="btn btn-sm btn-outline-secondary">Plus d'info</button>
-											<a href="{{path('ajout_panier', {id:produit.id})}}" class="btn btn-sm btn-outline-secondary">Ajouter au panier</a>
-										</div>
-										<small class="text-muted">{{produit.prix}}€</small>
-									</div>
-								</div>
+				{% for image in listeImages %}
+					<div
+						class="carousel-item {% if loop.index == 1 %}active{% endif %}" style="background-image: url('/uploads/{{image.nomImage}}')">
+						{# au lieu de loop.index == 1, on peut mettre loop.first #}
+						<div class="container">
+							<div class="carousel-caption text-start">
+								<h1>{{image.titre}}</h1>
+								<p>{{image.texte}}</p>
+								<p>
+									<a class="btn btn-lg btn-primary" href="#">En savoir plus</a>
+								</p>
 							</div>
 						</div>
-					{% endfor %}
+					</div>
+				{% endfor %}
+
+				<button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Previous</span>
+				</button>
+				<button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Next</span>
+				</button>
+			</div>
+
+			<div class="album py-5 bg-light">
+				<div class="container">
+					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+						{% for produit in listeProduits %}
+							<div class="col">
+								<div class="card shadow-sm">
+									<img style="height:225px;width:100%" src="/uploads/{{produit.nomImage}}">
+
+									<div class="card-body">
+										<h4>{{produit.designation}}</h4>
+										<p class="card-text">{{produit.description | slice(0,100)}}</p>
+										<!--pour limiter à 100 caractères-->
+										<div class="d-flex justify-content-between align-items-center">
+											<div class="btn-group">
+												<button type="button" class="btn btn-sm btn-outline-secondary">Plus d'info</button>
+												<a href="{{path('ajout_panier', {id:produit.id})}}" class="btn btn-sm btn-outline-secondary">Ajouter au panier</a>
+											</div>
+											<small class="text-muted">{{produit.prix}}€</small>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						{% endfor %}
+
+					</div>
 				</div>
 			</div>
-		</div>
-
-	</main>
-{% endblock %}
+		</main>
+	{% endblock %}

@@ -4,6 +4,35 @@
 {% endblock %}
 
 {% block body %}
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Titre</th>
+				<th>Texte</th>
+				<th>Image</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for image in listeImages %}
+				<tr>
+					<td>{{image.id}}</td>
+					<td><img style="width:100px;height:100px" src="/uploads/{{image.nomImage}}"></td>
+					<td>{{image.titre}}</td>
+					<td>{{image.texte}}</td>
+					<td>
+						<a class="btn badge bg-success" href="{{path ('edition_carrousel', {id:image.id})}}">Modifier</a>
+						{# <a class="btn badge bg-danger" href="{{path ('suppression_produit', {id:produit.id})}}">Supprimer</a> #}
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+
+	<a class="btn btn-primary" href="{{path ('creation_produit')}}">Nouveau produit</a>
+
 	<table class="table">
 		<thead>
 			<tr>
@@ -24,7 +53,7 @@
 					<td>{{produit.description}}</td>
 					<td>{{produit.prix}}</td>
 					<td>
-						<a class="btn badge bg-success">Modifier</a>
+						<a class="btn badge bg-success" href="{{path ('modification_produit', {id:produit.id})}}">Modifier</a>
 						<a class="btn badge bg-danger" href="{{path ('suppression_produit', {id:produit.id})}}">Supprimer</a>
 					</td>
 				</tr>
