@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +43,22 @@ class Produit
      * @ORM\Column(type="integer")
      */
     private $quantite;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="listeProduits")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $categorie;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Libelle::class, inversedBy="produits")
+     */
+    private $listeLibelles;
+
+    public function __construct()
+    {
+        $this->listeLibelles = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -103,6 +121,42 @@ class Produit
     public function setQuantite(int $quantite): self
     {
         $this->quantite = $quantite;
+
+        return $this;
+    }
+
+    public function getCategorie(): ?Categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Categorie $categorie): self
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Libelle[]
+     */
+    public function getListeLibelles(): Collection
+    {
+        return $this->listeLibelles;
+    }
+
+    public function addListeLibelle(Libelle $listeLibelle): self
+    {
+        if (!$this->listeLibelles->contains($listeLibelle)) {
+            $this->listeLibelles[] = $listeLibelle;
+        }
+
+        return $this;
+    }
+
+    public function removeListeLibelle(Libelle $listeLibelle): self
+    {
+        $this->listeLibelles->removeElement($listeLibelle);
 
         return $this;
     }

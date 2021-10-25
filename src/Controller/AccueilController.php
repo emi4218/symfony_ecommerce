@@ -13,12 +13,14 @@ class AccueilController extends AbstractController
     #[Route('/', name: 'accueil')]
     public function index(ProduitRepository $repo, SlideRepository $slideRepo): Response
     {
-        $listeProduits = $repo->findAll();
+        $listeProduits = $repo->findAllJoinLibelle();
         $listeImages = $slideRepo->findAll();
+
 
         return $this->render('accueil/index.html.twig', [
             "listeProduits" => $listeProduits,
             "listeImages" => $listeImages,
+
         ]);
     }
 }

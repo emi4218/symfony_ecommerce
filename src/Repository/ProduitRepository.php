@@ -19,6 +19,19 @@ class ProduitRepository extends ServiceEntityRepository
         parent::__construct($registry, Produit::class);
     }
 
+
+    public function findAllJoinLibelle()
+    {
+        $sql = "SELECT p, l
+                FROM App\Entity\Produit p
+                JOIN p.listeLibelles l";
+
+        $entityManager = $this->getEntityManager();
+        $requete = $entityManager->createQuery($sql);
+        return $requete->getResult();
+    }
+
+
     // /**
     //  * @return Produit[] Returns an array of Produit objects
     //  */

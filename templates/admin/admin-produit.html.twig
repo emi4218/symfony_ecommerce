@@ -1,0 +1,66 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Administration
+{% endblock %}
+
+{% block body %}
+
+
+	<style>
+		.invisible {
+			display: none
+		}
+	</style>
+
+	<a class="btn btn-primary" href="{{path ('creation_produit')}}">Nouveau produit</a>
+
+	<script>
+		function toggleTable(btn, index) {
+
+btn.classList.toggle("fa-plus-circle");
+btn.classList.toggle("fa-minus-circle");
+
+const table = document.querySelector("#table-" + index);
+table.classList.toggle("d-none");
+}
+	</script>
+
+	{% for nomCategorie, listeProduit in listeProduitParCategorie %}
+
+		<h2>{{nomCategorie}}
+			<i onclick="toggleTable(this, {{loop.index}});" style="cursor:pointer" class="fas fa-minus-circle"></i>
+		</h2>
+
+
+		<table id="table-{{loop.index}}" class="table">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Image</th>
+					<th>Désignation</th>
+					<th>Description</th>
+					<th>Prix</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+
+				{% for produit in listeProduit %}
+					<tr>
+						<td>{{produit.id}}</td>
+						<td><img style="width:50px;height:50px" src="/uploads/{{produit.nomImage}}"></td>
+						<td>{{produit.designation}}</td>
+						<td>{{produit.description}}</td>
+						<td>{{produit.prix}}</td>
+						<td>{{produit.quantite}}</td>
+						<td>
+							<a class="btn badge bg-success" href="{{path ('modification_produit', {id:produit.id})}}">Modifier</a>
+							<a class="btn badge bg-danger" href="{{path ('suppression_produit', {id:produit.id})}}">Supprimer</a>
+						</td>
+					</tr>
+				{% endfor %}
+
+			</tbody>
+		</table>
+	{% endfor %}
+{% endblock %}

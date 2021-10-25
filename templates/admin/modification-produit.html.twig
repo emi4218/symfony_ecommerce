@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-admin.html.twig' %}
 
 {% block title %}Administration
 {% endblock %}
@@ -11,5 +11,7 @@
 		<h1>Modification du produit :
 			{{produit.designation}}</h1>
 	{% endif %}
-
-	{{form(vueFormulaire)}}{% endblock %}
+	<div class="container">
+		{{form(vueFormulaire)}}
+		</div>
+	{% endblock %}

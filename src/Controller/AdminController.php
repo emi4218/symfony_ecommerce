@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Categorie;
 use App\Entity\Produit;
 use App\Entity\Slide;
 use App\Repository\ProduitRepository;
 use App\Repository\SlideRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -19,17 +21,48 @@ use Symfony\Component\Validator\Constraints\File;
 
 class AdminController extends AbstractController
 {
+    #[Route('/admin/produit', name: 'admin_produit')]
     #[Route('/admin', name: 'admin')]
-    public function index(ProduitRepository $repo, SlideRepository $repoSlide): Response
+    public function administrationProduit(ProduitRepository $repo): Response
     {
         $listeProduit = $repo->findAll();
-        $listeImages = $repoSlide->findAll();
 
-        return $this->render('admin/index.html.twig', [
-            'listeProduit' => $listeProduit,
-            'listeImages' => $listeImages,
+
+        $listeProduitParCategorie = [];
+
+        foreach ($listeProduit as $produit) {
+            $nomCategorie = $produit->getCategorie()->getNom();
+
+            if (!isset($listeProduitParCategorie[$nomCategorie])) {
+                $listeProduitParCategorie[$nomCategorie] = [];
+            }
+            $listeProduitParCategorie[$nomCategorie][] = $produit;
+        }
+
+        // dump($listeProduitParCategorie);
+
+        return $this->render('admin/admin-produit.html.twig', [
+            'listeProduitParCategorie' => $listeProduitParCategorie,
+
         ]);
     }
+
+    #[Route('/admin/slide', name: 'admin_slide')]
+    public function administrationSlide(SlideRepository $repoSlide): Response
+    {
+        $listeImages = $repoSlide->findAll();
+        return $this->render('admin/admin-slide.html.twig', [
+            'listeImages' => $listeImages,
+
+        ]);
+    }
+
+    #[Route('/admin/categorie', name: 'admin_categorie')]
+    public function administrationCategorie(): Response
+    {
+        return $this->render('admin/admin-categorie.html.twig');
+    }
+
 
 
     // méthode permettant de supprimer un produit
@@ -68,6 +101,16 @@ class AdminController extends AbstractController
                 ],
                 'row_attr' => [
                     'class' => 'form-group', // ne change rien, c'est pour montrer comment mettre une classe sur la classe supérieure
+                ],
+            ])
+            ->add('categorie', EntityType::class, [
+                'class' => Categorie::class,
+                'choice_label' => 'nom',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'row_attr' => [
+                    'class' => 'form-group',
                 ],
             ])
             ->add('description', TextareaType::class, [
